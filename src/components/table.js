@@ -1,31 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const Table = () => {
-
-    const [produtos, setProdutos] = useState([]);
-
+export const Table = ({ produtos, setProdutos }) => {
     const [edit, setEdit] = useState([false]);
 
     const destroy = (id) => {
         axios.delete('http://localhost:8000/api/' + id).then(
             response => setProdutos(response.data)
-        ).catch(error => console.log(error))
+        ).catch(error => console.log(error));
     }
 
-    useEffect(() => {
-        axios.get('http://localhost:8000/api/')
-            .then(response => {
-                setProdutos(response.data);
-                // setProdutos(produto => [...produto.map(pro => pro.edit = false)]);
-            })
-            .catch(error => console.log(error));
-            let editProdutos = produtos;
-            editProdutos.map(produto => {
-                produto.edit = false;
-            });
-            setProdutos(editProdutos);
-    }, []);
+
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -67,7 +52,7 @@ export const Table = () => {
                                 $2999
                             </td>
                             <td className="px-6 py-4">
-                                <button onClick={() => 
+                                <button onClick={() =>
                                     setProdutos([...produtos, produto.edit = !produto.edit])
                                 } className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</button>
                                 <button onClick={() => destroy(produto.id)} className="ml-3 font-medium dark:text-red-500 hover:underline">Deletar</button>
