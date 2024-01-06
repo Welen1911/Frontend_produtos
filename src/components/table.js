@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export const Table = ({ produtos, setProdutos }) => {
-    const [edit, setEdit] = useState([false]);
 
     const destroy = (id) => {
         axios.delete('http://localhost:8000/api/' + id).then(
@@ -10,6 +9,13 @@ export const Table = ({ produtos, setProdutos }) => {
         ).catch(error => console.log(error));
     }
 
+    const update = (id, name) => {
+        axios.put('http://localhost:8000/api/' + id, {
+            "name" : name
+        }).then(
+            response => setProdutos(response.data)
+        ).catch(error => console.log(error));
+    }
 
 
     return (
@@ -39,7 +45,10 @@ export const Table = ({ produtos, setProdutos }) => {
                         <tr key={produto.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {!produto.edit ? produto.name :
-                                    <input key={produto.key} value={produto.name} className="dark:text-black" />
+                                    <input key={produto.key} value={produto.name} onChange={e => {
+                                        produto.name = e.target.value;
+                                        setProdutos(prevProdutos => [...prevProdutos]);
+                                    }} className="dark:text-black" />
                                 }
                             </th>
                             <td className="px-6 py-4">
@@ -52,17 +61,29 @@ export const Table = ({ produtos, setProdutos }) => {
                                 $2999
                             </td>
                             <td className="px-6 py-4">
-                                <button onClick={() =>
-                                    setProdutos([...produtos, produto.edit = !produto.edit])
+                                {!produto.edit ? <><button onClick={() => {
+                                    produto.edit = !produto.edit;
+                                    setProdutos(prevProdutos => {
+                                        return [...prevProdutos];
+                                    });
+                                }
                                 } className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</button>
-                                <button onClick={() => destroy(produto.id)} className="ml-3 font-medium dark:text-red-500 hover:underline">Deletar</button>
+                                <button onClick={() => destroy(produto.id)} className="ml-3 font-medium dark:text-red-500 hover:underline">Deletar</button></> 
+                                : 
+                                <><button onClick={() => {
+                                        produto.edit = !produto.edit;
+                                        setProdutos(prevProdutos => {
+                                            return [...prevProdutos];
+                                        });
+                                    } } className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Cancelar</button><button onClick={() => update(produto.id, produto.name)} className="ml-3 font-medium dark:text-green-500 hover:underline">Salvar</button></>}
+                                
                             </td>
                         </tr>
                     ))}
 
                 </tbody>
             </table>
-        </div>
+        </div >
 
     );
 }
