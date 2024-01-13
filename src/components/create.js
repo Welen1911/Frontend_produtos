@@ -7,10 +7,10 @@ export const Create = ({ produtos, setProdutos }) => {
 
     const store = () => {
         console.log(produto);
-        axios.post('http://localhost:8000/api/', {
+        axios.post('http://localhost:3000/produtos/', {
             "name": produto
         }).then(response =>
-            setProdutos(response.data)
+            setProdutos([...produtos, response.data])
         ).catch(error => console.log(error));
     }
 

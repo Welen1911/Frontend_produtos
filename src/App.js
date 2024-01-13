@@ -10,7 +10,7 @@ function App() {
   const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/')
+    axios.get('http://localhost:3000/produtos')
       .then(response => {
         setProdutos(response.data);
         // setProdutos(produto => [...produto.map(pro => pro.edit = false)]);

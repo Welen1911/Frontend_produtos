@@ -1,0 +1,12 @@
+{
+  "produtos": [
+    {
+      "name": "Laravel",
+      "id": "a1f4"
+    },
+    {
+      "name": "React",
+      "id": "c7ac"
+    }
+  ]
+}

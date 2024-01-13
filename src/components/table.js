@@ -4,16 +4,20 @@ import { useEffect, useState } from "react";
 export const Table = ({ produtos, setProdutos }) => {
 
     const destroy = (id) => {
-        axios.delete('http://localhost:8000/api/' + id).then(
-            response => setProdutos(response.data)
+        axios.delete('http://localhost:3000/produtos/' + id).then(
+            response => {
+                console.log(response.data);
+            }
         ).catch(error => console.log(error));
     }
 
     const update = (id, name) => {
-        axios.put('http://localhost:8000/api/' + id, {
-            "name" : name
+        axios.put('http://localhost:3000/produtos/' + id, {
+            "name": name
         }).then(
-            response => setProdutos(response.data)
+            response => {
+                console.log(response.data);
+            }
         ).catch(error => console.log(error));
     }
 
@@ -68,15 +72,26 @@ export const Table = ({ produtos, setProdutos }) => {
                                     });
                                 }
                                 } className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Editar</button>
-                                <button onClick={() => destroy(produto.id)} className="ml-3 font-medium dark:text-red-500 hover:underline">Deletar</button></> 
-                                : 
-                                <><button onClick={() => {
+                                    <button onClick={() => {
+                                        destroy(produto.id);
+                                        produtos.indexOf(produto);
+                                        let newProdutos = produtos.filter(p => p.id != produto.id);
+                                        setProdutos(newProdutos);
+                                    }} className="ml-3 font-medium dark:text-red-500 hover:underline">Deletar</button></>
+                                    :
+                                    <><button onClick={() => {
                                         produto.edit = !produto.edit;
                                         setProdutos(prevProdutos => {
                                             return [...prevProdutos];
                                         });
-                                    } } className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Cancelar</button><button onClick={() => update(produto.id, produto.name)} className="ml-3 font-medium dark:text-green-500 hover:underline">Salvar</button></>}
-                                
+                                    }} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Cancelar</button><button onClick={() => {
+                                        update(produto.id, produto.name);
+                                        produto.edit = !produto.edit;
+                                        setProdutos(prevProdutos => {
+                                            return [...prevProdutos];
+                                        });
+                                    }} className="ml-3 font-medium dark:text-green-500 hover:underline">Salvar</button></>}
+
                             </td>
                         </tr>
                     ))}
