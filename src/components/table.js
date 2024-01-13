@@ -31,13 +31,13 @@ export const Table = ({ produtos, setProdutos }) => {
                             Product name
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Color
+                            -
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Category
+                            -
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Price
+                            -
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Action
@@ -56,13 +56,13 @@ export const Table = ({ produtos, setProdutos }) => {
                                 }
                             </th>
                             <td className="px-6 py-4">
-                                Silver
+                                -
                             </td>
                             <td className="px-6 py-4">
-                                Laptop
+                                -
                             </td>
                             <td className="px-6 py-4">
-                                $2999
+                                -
                             </td>
                             <td className="px-6 py-4">
                                 {!produto.edit ? <><button onClick={() => {
